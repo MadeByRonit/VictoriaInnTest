@@ -192,9 +192,14 @@ export default defineConfig({
 		allowedHosts: true,
 	},
 	resolve: {
-		extensions: ['.jsx', '.js', '.tsx', '.ts', '.json', ],
+		extensions: ['.jsx', '.js', '.tsx', '.ts', '.json'],
 		alias: {
 			'@': path.resolve(__dirname, './src'),
 		},
+	},
+	build: {
+		rollupOptions: {
+			external: ['/src/main.jsx'],  // Added this line to handle the issue
+		}
 	},
 });
