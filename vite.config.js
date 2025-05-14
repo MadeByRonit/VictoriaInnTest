@@ -2,7 +2,7 @@ import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { createLogger, defineConfig } from 'vite';
 
-const configHorizonsViteErrorHandler = `
+const configHorizonsViteErrorHandler = 
 const observer = new MutationObserver((mutations) => {
 	for (const mutation of mutations) {
 		for (const addedNode of mutation.addedNodes) {
@@ -47,9 +47,9 @@ function handleViteOverlay(node) {
 		}, '*');
 	}
 }
-`;
+;
 
-const configHorizonsRuntimeErrorHandler = `
+const configHorizonsRuntimeErrorHandler = 
 window.onerror = (message, source, lineno, colno, errorObj) => {
 	const errorDetails = errorObj ? JSON.stringify({
 		name: errorObj.name,
@@ -66,9 +66,9 @@ window.onerror = (message, source, lineno, colno, errorObj) => {
 		error: errorDetails
 	}, '*');
 };
-`;
+;
 
-const configHorizonsConsoleErrroHandler = `
+const configHorizonsConsoleErrroHandler = 
 const originalConsoleError = console.error;
 console.error = function(...args) {
 	originalConsoleError.apply(console, args);
@@ -78,7 +78,7 @@ console.error = function(...args) {
 	for (let i = 0; i < args.length; i++) {
 		const arg = args[i];
 		if (arg instanceof Error) {
-			errorString = arg.stack || \`\${arg.name}: \${arg.message}\`;
+			errorString = arg.stack || \\${arg.name}: \${arg.message}\;
 			break;
 		}
 	}
@@ -92,9 +92,9 @@ console.error = function(...args) {
 		error: errorString
 	}, '*');
 };
-`;
+;
 
-const configWindowFetchMonkeyPatch = `
+const configWindowFetchMonkeyPatch = 
 const originalFetch = window.fetch;
 
 window.fetch = function(...args) {
@@ -118,7 +118,7 @@ window.fetch = function(...args) {
 					const responseClone = response.clone();
 					const errorFromRes = await responseClone.text();
 					const requestUrl = response.url;
-					console.error(\`Fetch error from \${requestUrl}: \${errorFromRes}\`);
+					console.error(\Fetch error from \${requestUrl}: \${errorFromRes}\);
 			}
 
 			return response;
@@ -131,7 +131,7 @@ window.fetch = function(...args) {
 			throw error;
 		});
 };
-`;
+;
 
 const addTransformIndexHtml = {
 	name: 'add-transform-index-html',
@@ -192,14 +192,17 @@ export default defineConfig({
 		allowedHosts: true,
 	},
 	resolve: {
-		extensions: ['.jsx', '.js', '.tsx', '.ts', '.json'],
+		extensions: ['.jsx', '.js', '.tsx', '.ts', '.json', ],
 		alias: {
 			'@': path.resolve(__dirname, './src'),
 		},
 	},
-	build: {
-		rollupOptions: {
-			external: ['/src/main.jsx'],  // Added this line to handle the issue
-		}
-	},
+	import { defineConfig } from 'vite';
+
+export default defineConfig({
+  build: {
+    rollupOptions: {
+      external: ['/src/main.jsx'],  // Add this line to tell Rollup not to bundle this file
+    }
+  }
 });
