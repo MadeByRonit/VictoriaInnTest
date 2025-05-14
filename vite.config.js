@@ -202,7 +202,6 @@ export default defineConfig({
 export default defineConfig({
   build: {
     rollupOptions: {
-      external: ['/src/main.jsx'],  // Add this line to tell Rollup not to bundle this file
     }
   }
 });
